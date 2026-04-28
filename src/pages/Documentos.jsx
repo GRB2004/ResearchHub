@@ -87,8 +87,11 @@ export default function Documentos({ user, emitActivity }) {
       const ydoc = new Y.Doc();
       ydocRef.current = ydoc;
 
-      // Connect to the y-websocket server on port 3001
-      const wsUrl = `ws://${window.location.hostname}:3001/yjs`;
+      // Connect to the y-websocket server
+      const isDev = import.meta.env.DEV;
+      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsHost = isDev ? `${window.location.hostname}:3001` : window.location.host;
+      const wsUrl = `${wsProtocol}//${wsHost}/yjs`;
       console.log('[Yjs] Connecting to:', wsUrl, 'room:', `doc-${doc.id}`);
       const provider = new WebsocketProvider(wsUrl, `doc-${doc.id}`, ydoc);
       providerRef.current = provider;

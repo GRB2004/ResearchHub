@@ -16,7 +16,9 @@ export function useSocket(token) {
       return;
     }
 
-    const s = io('http://localhost:3001', {
+    const isDev = import.meta.env.DEV;
+    const socketUrl = isDev ? 'http://localhost:3001' : '/';
+    const s = io(socketUrl, {
       auth: { token },
       transports: ['websocket', 'polling']
     });

@@ -185,6 +185,15 @@ app.use('/api/equipos', equiposRoutes);
 // Static uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Serve frontend static files in production
+const distPath = path.join(__dirname, '..', 'dist');
+app.use(express.static(distPath));
+
+// Catch-all route to serve React's index.html for SPA routing
+app.get(/(.*)/, (req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
+});
+
 httpServer.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
   console.log(`🔌 WebSocket ready for real-time collaboration`);
