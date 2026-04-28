@@ -1,0 +1,324 @@
+openapi: 3.0.0
+info:
+  title: ResearchHub API
+  description: Contrato de la API REST para el Proyecto de Trabajo Colaborativo
+  version: 1.0.0
+servers:
+  - url: /api
+    description: Servidor Local Base
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
+paths:
+  /auth/login:
+    post:
+      summary: Iniciar sesión
+      tags: [Auth]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login exitoso, devuelve JWT y user
+  /auth/register:
+    post:
+      summary: Registrar nuevo usuario
+      tags: [Auth]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [nombre, email, password]
+              properties:
+                nombre:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Registro exitoso, devuelve JWT y user
+  /auth/me:
+    get:
+      summary: Obtener datos del usuario actual
+      tags: [Auth]
+      responses:
+        '200':
+          description: Datos del usuario actual
+
+  /tareas:
+    get:
+      summary: Obtener lista de tareas
+      tags: [Tareas]
+      parameters:
+        - name: equipo_id
+          in: query
+          schema: { type: integer }
+        - name: asignado_a
+          in: query
+          schema: { type: integer }
+        - name: estado
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Lista de tareas
+    post:
+      summary: Crear nueva tarea
+      tags: [Tareas]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [titulo]
+              properties:
+                titulo: { type: string }
+                descripcion: { type: string }
+                estado: { type: string, default: 'backlog' }
+                prioridad: { type: string, default: 'media' }
+                asignado_a: { type: integer }
+                equipo_id: { type: integer }
+                fecha_limite: { type: string, format: date-time }
+      responses:
+        '200':
+          description: Tarea creada
+  /tareas/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: integer }
+    put:
+      summary: Actualizar tarea existente
+      tags: [Tareas]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo: { type: string }
+                descripcion: { type: string }
+                estado: { type: string }
+                prioridad: { type: string }
+                asignado_a: { type: integer }
+                equipo_id: { type: integer }
+                fecha_limite: { type: string, format: date-time }
+      responses:
+        '200':
+          description: Tarea actualizada
+    delete:
+      summary: Eliminar tarea
+      tags: [Tareas]
+      responses:
+        '200':
+          description: Tarea eliminada
+
+  /documentos:
+    get:
+      summary: Obtener documentos
+      tags: [Documentos]
+      responses:
+        '200': { description: Lista de documentos }
+    post:
+      summary: Crear documento
+      tags: [Documentos]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [nombre]
+              properties:
+                nombre: { type: string }
+                descripcion: { type: string }
+      responses:
+        '200': { description: Documento creado }
+  /documentos/{id}:
+    delete:
+      summary: Eliminar documento
+      tags: [Documentos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200': { description: Documento eliminado }
+  /documentos/{docId}/ramas:
+    get:
+      summary: Obtener ramas de un documento
+      tags: [Documentos]
+      parameters:
+        - name: docId
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200': { description: Lista de ramas }
+    post:
+      summary: Crear nueva rama
+      tags: [Documentos]
+      parameters:
+        - name: docId
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [nombre]
+              properties:
+                nombre: { type: string }
+      responses:
+        '200': { description: Rama creada }
+  /documentos/ramas/{ramaId}/versiones:
+    get:
+      summary: Obtener versiones de una rama
+      tags: [Documentos]
+      parameters:
+        - name: ramaId
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200': { description: Lista de versiones }
+    post:
+      summary: Subir nueva versión de archivo
+      tags: [Documentos]
+      parameters:
+        - name: ramaId
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                archivo:
+                  type: string
+                  format: binary
+                mensaje:
+                  type: string
+      responses:
+        '200': { description: Versión subida correctamente }
+  /documentos/versiones/{versionId}/descargar:
+    get:
+      summary: Descargar versión de archivo
+      tags: [Documentos]
+      parameters:
+        - name: versionId
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Archivo binario adjunto
+
+  /calendario:
+    get:
+      summary: Obtener eventos del calendario
+      tags: [Calendario]
+      responses:
+        '200': { description: Lista de eventos }
+    post:
+      summary: Crear evento
+      tags: [Calendario]
+      requestBody:
+        content:
+           application/json:
+             schema:
+               type: object
+               required: [titulo, fecha_inicio, fecha_fin]
+               properties:
+                 titulo: { type: string }
+                 fecha_inicio: { type: string, format: date-time }
+                 fecha_fin: { type: string, format: date-time }
+                 descripcion: { type: string }
+                 color: { type: string }
+      responses:
+        '200': { description: Evento creado }
+  /calendario/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: integer }
+    put:
+      summary: Actualizar evento
+      tags: [Calendario]
+      requestBody:
+        content:
+           application/json:
+             schema:
+               type: object
+               properties:
+                 titulo: { type: string }
+                 fecha_inicio: { type: string, format: date-time }
+                 fecha_fin: { type: string, format: date-time }
+                 descripcion: { type: string }
+                 color: { type: string }
+      responses:
+        '200': { description: Evento actualizado }
+    delete:
+      summary: Eliminar evento
+      tags: [Calendario]
+      responses:
+        '200': { description: Evento eliminado }
+
+  /equipos:
+    get:
+      summary: Obtener todos los equipos
+      tags: [Equipos]
+      responses:
+        '200': { description: Lista de equipos }
+  /equipos/{id}:
+    get:
+      summary: Obtener detalles de un equipo
+      tags: [Equipos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200': { description: Detalles del equipo }
+  /equipos/actividad/recent:
+    get:
+      summary: Obtener actividad reciente global
+      tags: [Equipos]
+      responses:
+        '200': { description: Lista de acciones recientes }
+  /equipos/users/all:
+    get:
+      summary: Obtener todos los usuarios
+      tags: [Usuarios]
+      responses:
+        '200': { description: Lista de usuarios del proyecto }
