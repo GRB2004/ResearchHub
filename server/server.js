@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
@@ -10,6 +11,13 @@ import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Enable Yjs document persistence to disk (LevelDB)
+// Documents will be stored in server/data/yjs-docs/
+const yjsPersistenceDir = path.join(__dirname, 'data', 'yjs-docs');
+fs.mkdirSync(yjsPersistenceDir, { recursive: true });
+process.env.YPERSISTENCE = yjsPersistenceDir;
+
 const yutils = require(path.join(__dirname, '..', 'node_modules', 'y-websocket', 'bin', 'utils.js'));
 
 // Initialize database (creates tables & seeds data)

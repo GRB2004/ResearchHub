@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import api from '../api';
 
 const COLUMNS = [
-  { id: 'backlog', label: 'Backlog', icon: '📥' },
-  { id: 'todo', label: 'Por Hacer', icon: '📝' },
-  { id: 'in_progress', label: 'En Progreso', icon: '⚡' },
-  { id: 'review', label: 'Revisión', icon: '🔍' },
-  { id: 'done', label: 'Completado', icon: '✅' },
+  { id: 'backlog', label: 'Backlog', icon: '' },
+  { id: 'todo', label: 'Por Hacer', icon: '' },
+  { id: 'in_progress', label: 'En Progreso', icon: '' },
+  { id: 'review', label: 'Revisión', icon: '' },
+  { id: 'done', label: 'Completado', icon: '' },
 ];
 
 export default function Board({ user }) {
@@ -130,7 +130,7 @@ export default function Board({ user }) {
   return (
     <div className="animate-in">
       <div className="page-header">
-        <h2>Tablero de Tareas 📋</h2>
+        <h2>Tablero de Tareas</h2>
         <p>Gestiona las tareas del proyecto arrastrando entre columnas</p>
       </div>
 
@@ -257,10 +257,10 @@ export default function Board({ user }) {
               </div>
               <div className="modal-actions">
                 {editingTask && (
-                  <button type="button" className="btn btn-danger" onClick={handleDelete}>🗑️ Eliminar</button>
+                  <button type="button" className="btn btn-danger" onClick={handleDelete}> Eliminar</button>
                 )}
                 <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancelar</button>
-                <button type="submit" className="btn btn-primary">{editingTask ? '💾 Guardar' : '✨ Crear'}</button>
+                <button type="submit" className="btn btn-primary">{editingTask ? '💾 Guardar' : ' Crear'}</button>
               </div>
             </form>
           </div>

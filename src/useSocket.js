@@ -17,7 +17,7 @@ export function useSocket(token) {
     }
 
     const isDev = import.meta.env.DEV;
-    const socketUrl = isDev ? 'http://localhost:3001' : '/';
+    const socketUrl = isDev ? `http://${window.location.hostname}:3001` : '/';
     const s = io(socketUrl, {
       auth: { token },
       transports: ['websocket', 'polling']

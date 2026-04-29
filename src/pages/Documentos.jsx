@@ -24,7 +24,7 @@ export default function Documentos({ user, emitActivity }) {
   const [activeDoc, setActiveDoc] = useState(null);
   const [showCreateDoc, setShowCreateDoc] = useState(false);
   const [docForm, setDocForm] = useState({ nombre: '', descripcion: '' });
-  
+
   const quillRef = useRef(null);
   const providerRef = useRef(null);
   const ydocRef = useRef(null);
@@ -76,14 +76,14 @@ export default function Documentos({ user, emitActivity }) {
 
   const openDocument = (doc) => {
     if (activeDoc?.id === doc.id) return;
-    
+
     cleanupYjs();
     setActiveDoc(doc);
-    
+
     // We wait a tick for the quill component to mount/render for the new doc
     setTimeout(() => {
       if (!quillRef.current) return;
-      
+
       const ydoc = new Y.Doc();
       ydocRef.current = ydoc;
 
@@ -118,7 +118,7 @@ export default function Documentos({ user, emitActivity }) {
 
       const ytext = ydoc.getText('quill');
       const editor = quillRef.current.getEditor();
-      
+
       bindingRef.current = new QuillBinding(ytext, editor, provider.awareness);
     }, 100);
   };
@@ -127,7 +127,7 @@ export default function Documentos({ user, emitActivity }) {
     <div className="animate-in" style={{ height: 'calc(100vh - 100px)', display: 'flex', flexDirection: 'column' }}>
       <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2>Documentos 📄</h2>
+          <h2>Documentos</h2>
           <p>Edición colaborativa en tiempo real con cursores múltiples</p>
         </div>
         <button className="btn btn-primary" onClick={() => setShowCreateDoc(true)}>➕ Nuevo Documento</button>
@@ -135,18 +135,18 @@ export default function Documentos({ user, emitActivity }) {
 
       <div style={{ display: 'flex', gap: '20px', flex: 1, overflow: 'hidden' }}>
         {/* Left Sidebar: Document List */}
-        <div className="card" style={{ width: '300px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div className="card" style={{ width: '300px', flexShrink: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <h3 style={{ fontSize: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px', marginBottom: '10px' }}>Tus Documentos</h3>
           {documentos.length === 0 ? (
             <p style={{ color: 'var(--text-muted)', fontSize: '14px', textAlign: 'center', marginTop: '20px' }}>No hay documentos</p>
           ) : (
             documentos.map(doc => (
-              <div 
-                key={doc.id} 
+              <div
+                key={doc.id}
                 onClick={() => openDocument(doc)}
-                style={{ 
-                  padding: '12px', 
-                  borderRadius: '8px', 
+                style={{
+                  padding: '12px',
+                  borderRadius: '8px',
                   cursor: 'pointer',
                   border: '1px solid var(--border-color)',
                   backgroundColor: activeDoc?.id === doc.id ? 'var(--primary-color)' : 'var(--card-bg)',
@@ -163,11 +163,11 @@ export default function Documentos({ user, emitActivity }) {
                     {doc.creador_nombre}
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={(e) => deleteDoc(doc.id, e)}
-                  style={{ 
-                    background: 'none', border: 'none', cursor: 'pointer', 
-                    opacity: 0.6, fontSize: '14px' 
+                  style={{
+                    background: 'none', border: 'none', cursor: 'pointer',
+                    opacity: 0.6, fontSize: '14px'
                   }}
                   title="Eliminar"
                 >
@@ -179,25 +179,25 @@ export default function Documentos({ user, emitActivity }) {
         </div>
 
         {/* Right Area: Editor */}
-        <div className="card" style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: 0 }}>
+        <div className="card" style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: 0, minWidth: 0 }}>
           {activeDoc ? (
             <>
               <div style={{ padding: '20px', borderBottom: '1px solid var(--border-color)' }}>
                 <h3 style={{ margin: 0 }}>{activeDoc.nombre}</h3>
                 {activeDoc.descripcion && <p style={{ margin: '5px 0 0', fontSize: '13px', color: 'var(--text-muted)' }}>{activeDoc.descripcion}</p>}
               </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }} className="quill-collaborative">
-                <ReactQuill 
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }} className="quill-collaborative">
+                <ReactQuill
                   ref={quillRef}
-                  theme="snow" 
+                  theme="snow"
                   modules={MODULES}
-                  style={{ height: 'calc(100% - 42px)', display: 'flex', flexDirection: 'column' }}
+                  style={{ height: 'calc(100% - 42px)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
                 />
               </div>
             </>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-muted)' }}>
-              <div style={{ fontSize: '48px', marginBottom: '10px' }}>✍️</div>
+              <div style={{ fontSize: '48px', marginBottom: '10px' }}></div>
               <h3>Selecciona un documento</h3>
               <p>O crea uno nuevo para empezar a editar en tiempo real</p>
             </div>
@@ -210,7 +210,7 @@ export default function Documentos({ user, emitActivity }) {
         <div className="modal-overlay" onClick={() => setShowCreateDoc(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>📄 Nuevo Documento</h3>
+              <h3>Nuevo Documento</h3>
               <button className="modal-close" onClick={() => setShowCreateDoc(false)}>×</button>
             </div>
             <form onSubmit={createDoc}>

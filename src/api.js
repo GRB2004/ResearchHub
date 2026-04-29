@@ -81,6 +81,13 @@ const api = {
   // Equipos
   getEquipos: () => request('/equipos'),
   getEquipo: (id) => request(`/equipos/${id}`),
+  createEquipo: (data) => request('/equipos', { method: 'POST', body: JSON.stringify(data) }),
+  updateEquipo: (id, data) => request(`/equipos/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  deleteEquipo: (id) => request(`/equipos/${id}`, { method: 'DELETE' }),
+  addMiembro: (equipoId, userId) => request(`/equipos/${equipoId}/miembros/${userId}`, { method: 'PUT' }),
+  removeMiembro: (equipoId, userId) => request(`/equipos/${equipoId}/miembros/${userId}`, { method: 'DELETE' }),
+
+  // Activity & Users
   getActividad: () => request('/equipos/actividad/recent'),
   getUsers: () => request('/equipos/users/all'),
 };

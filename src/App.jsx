@@ -13,7 +13,7 @@ const PAGE_LABELS = {
   '/board': 'Tablero',
   '/documentos': 'Documentos',
   '/calendario': 'Cronograma',
-  '/equipos': 'Miembros',
+  '/equipos': 'Equipos',
 };
 
 // ── Toast Notifications ──
@@ -102,7 +102,7 @@ function Sidebar({ user, onLogout, onlineUsers }) {
         </NavLink>
         <NavLink to="/equipos" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
           <span className="nav-icon"></span>
-          <span>Miembros</span>
+          <span>Equipos</span>
         </NavLink>
       </nav>
 
@@ -110,16 +110,21 @@ function Sidebar({ user, onLogout, onlineUsers }) {
       <PresenceWidget onlineUsers={onlineUsers} />
 
       <div className="sidebar-user">
-        <div className="user-avatar" style={{ background: user.avatar_color }}>
-          {user.nombre.charAt(0).toUpperCase()}
-        </div>
-        <div className="user-info">
-          <div className="user-name">{user.nombre}</div>
-          <div className="user-team">
-            <span className="presence-dot-live" style={{ width: '6px', height: '6px' }}></span> En línea
+        <div className="sidebar-user-top">
+          <div className="user-avatar" style={{ background: user.avatar_color }}>
+            {user.nombre.charAt(0).toUpperCase()}
+          </div>
+          <div className="user-info">
+            <div className="user-name">{user.nombre}</div>
+            <div className="user-team">
+              <span className="presence-dot-live" style={{ width: '6px', height: '6px' }}></span> En línea
+            </div>
           </div>
         </div>
-        <button className="logout-btn" onClick={onLogout} title="Cerrar sesión">⏻</button>
+        <button className="logout-btn" onClick={onLogout}>
+          <span className="logout-icon"></span>
+          Cerrar sesión
+        </button>
       </div>
     </aside>
   );

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "concurrently \"vite\" \"node server/server.js\"",
+    "dev": "concurrently \"vite --host\" \"node server/server.js\"",
     "dev:client": "vite",
     "dev:server": "node server/server.js",
     "build": "vite build",

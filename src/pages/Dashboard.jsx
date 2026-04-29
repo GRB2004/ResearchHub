@@ -51,7 +51,7 @@ export default function Dashboard({ user, onlineUsers = [] }) {
   return (
     <div className="animate-in">
       <div className="page-header">
-        <h2>¡Bienvenido, {user.nombre}! 👋</h2>
+        <h2>¡Bienvenido, {user.nombre}!</h2>
         <p>Resumen general de tu proyecto de investigación colaborativa</p>
       </div>
 
@@ -113,7 +113,7 @@ export default function Dashboard({ user, onlineUsers = [] }) {
         {/* Activity Feed */}
         <div className="card">
           <div className="card-header">
-            <h3 className="card-title">🔔 Actividad reciente</h3>
+            <h3 className="card-title"> Actividad reciente</h3>
           </div>
           <div className="activity-feed">
             {actividad.length === 0 ? (

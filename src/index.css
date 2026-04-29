@@ -188,6 +188,12 @@ body {
   padding: 16px;
   border-top: 1px solid var(--border);
   display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-user-top {
+  display: flex;
   align-items: center;
   gap: 12px;
 }
@@ -227,19 +233,32 @@ body {
 }
 
 .logout-btn {
-  background: none;
-  border: none;
-  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #f87171;
   cursor: pointer;
-  padding: 6px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   transition: all 0.2s;
-  font-size: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
 }
 
 .logout-btn:hover {
-  color: var(--danger);
-  background: rgba(239, 68, 68, 0.1);
+  color: white;
+  background: rgba(239, 68, 68, 0.6);
+  border-color: var(--danger);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.3);
+}
+
+.logout-btn .logout-icon {
+  font-size: 16px;
 }
 
 /* ── Page Headers ── */
@@ -518,14 +537,14 @@ body {
 
 .kanban-board {
   display: flex;
-  gap: 16px;
-  overflow-x: auto;
+  gap: 12px;
   padding-bottom: 16px;
   min-height: calc(100vh - 240px);
 }
 
 .kanban-column {
-  flex: 0 0 280px;
+  flex: 1 1 0;
+  min-width: 0;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -1012,6 +1031,11 @@ body {
   font-weight: 800;
 }
 
+.calendar-day.selected {
+  background: var(--bg-hover);
+  border: 2px solid var(--accent-hover);
+}
+
 .calendar-event {
   padding: 3px 6px;
   border-radius: 4px;
@@ -1307,7 +1331,11 @@ body {
   }
 
   .kanban-column {
-    flex: 0 0 240px;
+    flex: 0 0 200px;
+  }
+
+  .kanban-board {
+    overflow-x: auto;
   }
 }
 
@@ -1822,6 +1850,21 @@ body {
   border-color: var(--border);
 }
 
+.quill-collaborative {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.quill-collaborative .quill {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.quill-collaborative .ql-toolbar {
+  overflow-x: auto;
+}
+
 .quill-collaborative .ql-container {
   border-color: var(--border) !important;
   border-bottom-left-radius: 8px;
@@ -1832,13 +1875,18 @@ body {
   overflow: hidden;
   font-family: 'Inter', sans-serif;
   font-size: 15px;
+  min-width: 0;
 }
 
 .quill-collaborative .ql-editor {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   color: var(--text-primary);
   padding: 20px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 /* Custom styles for cursors so they look good in dark mode */
