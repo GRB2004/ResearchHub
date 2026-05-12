@@ -76,9 +76,9 @@ function Sidebar({ user, onLogout, onlineUsers }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <div className="logo-icon">R</div>
+        <div className="logo-icon">C</div>
         <div>
-          <h1>ResearchHub</h1>
+          <h1>CollabHub</h1>
           <span className="logo-sub">Trabajo Colaborativo</span>
         </div>
       </div>

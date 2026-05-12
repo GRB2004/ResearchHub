@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: ResearchHub API
+  title: CollabHub API
   description: Contrato de la API REST para el Proyecto de Trabajo Colaborativo
   version: 1.0.0
 servers:

@@ -34,8 +34,8 @@ export default function Login({ onLogin }) {
       <div className="login-container animate-in">
         <div className="login-card">
           <div className="login-header">
-            <div className="login-logo">R</div>
-            <h2>ResearchHub</h2>
+            <div className="login-logo">C</div>
+            <h2>CollabHub</h2>
             <p>Plataforma de Gestión de Investigación Colaborativa</p>
           </div>
 
